@@ -4,6 +4,7 @@ import { User } from "./userModel";
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { userSearchableFields } from "../../shared/pick";
+import APIError from "../../errorHelpers/APIError";
 
 // getting all
 export const getAllUserService = async (
@@ -40,5 +41,40 @@ export const getAllUserService = async (
 
   const result = await User.find(whereConditions).sort(sortConditions);
 
+  return result;
+};
+
+// update
+export const updateUserService = async (
+  id: string,
+  payload: Partial<IUser>
+): Promise<IUser | null> => {
+  const isExist = await User.findOne({ Id: id });
+
+  if (!isExist) {
+    throw new APIError(404, "User not found !");
+  }
+
+  const { Name, password, ...userData } = payload;
+  let hashPas;
+  if (password) {
+    hashPas = await bcrypt.hash(password, Number(config.bycrypt_salt_rounds));
+  }
+  const updatedUserData: Partial<IUser> = { ...userData };
+  if (hashPas) {
+    updatedUserData["password"] = hashPas;
+  }
+  // dynamically handling
+
+  const result = await User.findOneAndUpdate({ Id: id }, updatedUserData, {
+    new: true,
+  });
+  return result;
+};
+// delete
+export const deleteUserService = async (id: string): Promise<IUser | null> => {
+  const result = await User.findOneAndDelete({
+    Id: id,
+  });
   return result;
 };
