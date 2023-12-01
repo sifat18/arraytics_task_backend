@@ -7,8 +7,7 @@ export type IItem = {
 };
 export type IItemFilters = {
   searchTerm?: string;
-  email?: string;
-  name?: string;
+  Name?: string;
   Id?: string;
   created_by?: string;
 };

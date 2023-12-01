@@ -26,7 +26,7 @@ export const getAllUserService = async (
   // filter field
   if (Object.keys(filtersData).length) {
     andConditions.push({
-      $or: Object.entries(filtersData).map(([field, value]) => ({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
         [field]: {
           $regex: value,
           $options: "i",

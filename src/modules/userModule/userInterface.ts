@@ -19,7 +19,7 @@ export type UserModel = {
 export type IUserFilters = {
   searchTerm?: string;
   email?: string;
-  name?: string;
+  Name?: string;
   Id?: string;
   created_by?: string;
 };
