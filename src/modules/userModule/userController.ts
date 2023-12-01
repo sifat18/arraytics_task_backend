@@ -29,7 +29,6 @@ export const getAllUser: RequestHandler = catchAsync(
 export const updateUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updatedData = req.body;
-
   const result = await updateUserService(id, updatedData);
 
   reponseFormat<IUser>(res, {

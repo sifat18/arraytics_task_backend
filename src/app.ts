@@ -7,8 +7,12 @@ import { UserRoutes } from "./modules/userModule/userRoutes";
 import { ItemRoutes } from "./modules/item/itemRoutes";
 
 const app: Application = express();
-
-app.use(cors());
+const options = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+};
+app.use(cors(options));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

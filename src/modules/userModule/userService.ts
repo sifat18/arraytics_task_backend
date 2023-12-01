@@ -55,18 +55,9 @@ export const updateUserService = async (
     throw new APIError(404, "User not found !");
   }
 
-  const { Name, password, ...userData } = payload;
-  let hashPas;
-  if (password) {
-    hashPas = await bcrypt.hash(password, Number(config.bycrypt_salt_rounds));
-  }
-  const updatedUserData: Partial<IUser> = { ...userData };
-  if (hashPas) {
-    updatedUserData["password"] = hashPas;
-  }
-  // dynamically handling
+  //   const { Name, password, ...userData } = payload;
 
-  const result = await User.findOneAndUpdate({ Id: id }, updatedUserData, {
+  const result = await User.findOneAndUpdate({ Id: id }, payload, {
     new: true,
   });
   return result;
